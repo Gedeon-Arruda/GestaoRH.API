@@ -21,6 +21,11 @@ namespace GestaoRH.API.Controllers
         {
             var retorno = _funcionarioServico.Criar(funcionarioVw);
 
+            if (retorno == null)
+            {
+                return BadRequest();
+            }
+
             return Ok(retorno);
         }
 

@@ -17,16 +17,16 @@ namespace GestaoRH.Aplicacao.Servicos
             _funcionario = funcionario;
         }
 
-        public FuncionarioViewModel Criar(FuncionarioViewModel funcionarioDto)
+        public FuncionarioViewModel Criar(FuncionarioViewModel funcionarioVw)
         {
-            var duplicado = _funcionario.Funcionarios.Any(p => p.Nome == funcionarioDto.Nome);
+            var duplicado = _funcionario.Funcionarios.Any(p => p.Nome == funcionarioVw.Nome);
 
             if (duplicado)
             {
                 return null;
             }
 
-            var funcionario = new Funcionario(funcionarioDto.Nome, DateTime.Parse(funcionarioDto.DataDeNascimento), DateTime.Parse(funcionarioDto.InicioNaEmpresa));
+            var funcionario = new Funcionario(funcionarioVw.Nome, DateTime.Parse(funcionarioVw.DataDeNascimento), DateTime.Parse(funcionarioVw.InicioNaEmpresa));
 
             _funcionario.Funcionarios.Add(funcionario);
             _funcionario.SaveChanges();
@@ -39,6 +39,13 @@ namespace GestaoRH.Aplicacao.Servicos
             var funcionario = _funcionario.Funcionarios.SingleOrDefault(f => f.Id == funcionarioVw.Id);
 
             if (funcionario == null)
+            {
+                return null;
+            }
+
+            var duplicado = _funcionario.Funcionarios.Any(p => p.Nome == funcionarioVw.Nome);
+
+            if (duplicado)
             {
                 return null;
             }
